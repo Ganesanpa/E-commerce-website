@@ -1,18 +1,26 @@
+import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useCart();
+
   return (
-    <Link href={`/product/${product.id}`}>
-      <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-xs hover:scale-105 transition-transform cursor-pointer">
+    <div className="bg-white rounded-lg shadow-md p-4">
+      <Link href={`/product/${product.id}`}>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 object-cover rounded"
+          className="w-full h-48 object-cover rounded-lg mb-2"
         />
-        <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-        <p className="text-sm text-gray-500 capitalize">{product.category}</p>
-        <p className="text-teal-600 font-bold mt-1">₹{product.price}</p>
-      </div>
-    </Link>
+        <h3 className="text-lg font-semibold">{product.name}</h3>
+        <p className="text-green-600 font-bold">₹{product.price}</p>
+      </Link>
+      <button
+        onClick={() => addToCart(product)}
+        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+      >
+        Add to Cart
+      </button>
+    </div>
   );
 }

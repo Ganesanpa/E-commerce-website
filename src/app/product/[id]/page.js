@@ -4,10 +4,10 @@ import { Button } from "antd";
 import Link from "next/link";
 import DetailSkeleton from "@/components/DetailSkeleton";
 
-export default async function ProductPage({ params }) {
-  const { id } = await params;
+export  default function ProductPage({ params }) {
+  const { id } =  params;
   const loading=false;
-  await new Promise((res)=>setTimeout(res,1000));
+ new Promise((res)=>setTimeout(res,1000));
 
   if(loading)return <DetailSkeleton/>
   const product = products.find((p) => p.id.toString() === id);

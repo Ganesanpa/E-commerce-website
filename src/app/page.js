@@ -1,56 +1,87 @@
 "use client";
-import { useState } from "react";
-import productsData from "@/data/products";
-import ProductCard from "@/components/ProductCard";
+
+import { useState, useEffect } from "react";
 import FilterBar from "@/components/FilterBar";
+import ProductCard from "@/components/ProductCard";
 import ProductSkeleton from "@/components/ProductSkeleton";
-import products from "@/data/products";
+import { fetchProducts } from "@/lib/fakeApi";
 
 export default function Home() {
-  const [category, setCategory] = useState("All");
-  const [sortOrder, setSortOrder] = useState("default");
+  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("all");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("default");
 
-  const loading=false;
+  const [initialLoading, setInitialLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  let filtered = [...productsData];
+  const loadProducts = async (reset = false) => {
+    const targetPage = reset ? 1 : page + 1;
+    const isFirstPage = targetPage === 1;
 
-  
-  if (category !== "All") {
-    filtered = filtered.filter((p) => p.category === category);
-  }
+    if (isFirstPage) setInitialLoading(true);
+    else setLoadingMore(true);
 
-  
-  if (sortOrder === "lowToHigh") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (sortOrder === "highToLow") {
-    filtered.sort((a, b) => b.price - a.price);
-  }
+    const { products: fetched, hasMore } = await fetchProducts({
+      page: targetPage,
+      limit: 8,
+      category,
+      search,
+      sort
+    });
+
+    setProducts((prev) => (isFirstPage ? fetched : [...prev, ...fetched]));
+    setPage(targetPage);
+    setHasMore(hasMore);
+
+    if (isFirstPage) setInitialLoading(false);
+    else setLoadingMore(false);
+  };
+
+ 
+  useEffect(() => {
+    loadProducts(true); 
+  }, [category, search, sort]);
 
   return (
-    
-    <main className="min-h-screen p-8 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4 text-center">🛍️ Products</h1>
-      <FilterBar
-        onSortChange={(val) => setSortOrder(val)}
-        onCategoryChange={(val) => setCategory(val)}
-      />
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center">
-        {filtered.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-       <div className="p-4">
+    <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">All Products</h1>
 
+      <FilterBar
+        category={category}
+        setCategory={setCategory}
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setSort={setSort}
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {loading
+        {initialLoading
           ? Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
           : products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+
+      
+        {loadingMore &&
+          Array.from({ length: 4 }).map((_, i) => (
+            <ProductSkeleton key={`more-${i}`} />
+          ))}
       </div>
+
+      {!initialLoading && hasMore && (
+        <div className="text-center mt-6">
+          <button
+            onClick={() => loadProducts(false)}
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          >
+            {loadingMore ? "Loading..." : "Load More"}
+          </button>
+        </div>
+      )}
     </div>
-    </main>
-  
   );
 }
