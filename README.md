@@ -26,23 +26,6 @@ This is a fully functional E-commerce frontend application built using **Next.js
 - 📁 Local fake API simulation using `lib/fakeApi.js`
 
 ---
-
-## 📸 Screenshots
-
-> *(You can upload screenshots in your GitHub repo and reference them like below)*
-
-![Home Page](screenshots/home.png)
-![Cart Page](screenshots/cart.png)
-![Checkout](screenshots/checkout.png)
-![login Page](screenshort/login.png)
-![Sign up Page](screenshort/signup.png)
-![product Page](screenshort/product.png)
-![order summery Page](screenshort/orderummery.png)
-![order history Page](screenshort/Screenshot 2025-07-06 210049.png)
-
-
----
-
 ## 🧑‍💻 Technologies Used
 
 - [Next.js](https://nextjs.org/)
