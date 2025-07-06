@@ -1,26 +1,43 @@
-import { useCart } from "@/context/CartContext";
+"use client";
+import { Card, Typography, Button } from "antd";
 import Link from "next/link";
+import {useCart} from "@/context/CartContext";
+
+const { Title, Text } = Typography;
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <Card
+      hoverable
+      cover={
+        <Link href={`/product/${product.id}`}>
+          <img
+            alt={product.name}
+            src={product.image}
+            className="h-48 w-full object-cover rounded-t"
+          />
+        </Link>
+      }
+      className="w-full"
+    >
       <Link href={`/product/${product.id}`}>
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-48 object-cover rounded-lg mb-2"
-        />
-        <h3 className="text-lg font-semibold">{product.name}</h3>
-        <p className="text-green-600 font-bold">₹{product.price}</p>
+        <Title level={5} ellipsis>
+          {product.name}
+        </Title>
       </Link>
-      <button
+      <Text strong className="block text-green-600 mb-2">
+        ₹{product.price}
+      </Text>
+
+      <Button
+        type="primary"
+        block
         onClick={() => addToCart(product)}
-        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
       >
         Add to Cart
-      </button>
-    </div>
+      </Button>
+    </Card>
   );
 }

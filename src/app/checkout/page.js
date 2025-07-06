@@ -1,51 +1,108 @@
 "use client";
 import { useCart } from "@/context/CartContext";
-import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-  if (cart.length === 0) {
-    return (
-      <div className="p-4 text-center">
-        <p className="text-gray-600">Your cart is empty.</p>
-        <Link href="/" className="text-blue-600 underline">
-          Back to shop
-        </Link>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [user]);
+
+  if (!user) return null;
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, phone, address } = form;
+
+    if (!name || !email || !phone || !address) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    toast.success("Order placed successfully! 🎉");
+   
+    router.push("/cart/success");
+  };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Checkout</h1>
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">🛒 Checkout</h1>
 
-      <div className="space-y-2">
+      {/* Cart Summary */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
         {cart.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between border-b pb-2 text-sm"
-          >
-            <div>
-              <p>{item.name}</p>
-              <p className="text-gray-500">Qty: {item.qty}</p>
-            </div>
-            <p>₹{item.price * item.qty}</p>
+          <div key={item.id} className="flex justify-between mb-1">
+            <span>
+              {item.name} x {item.qty}
+            </span>
+            <span>₹{item.price * item.qty}</span>
           </div>
         ))}
+        <div className="font-bold mt-2 text-right">Total: ₹{total}</div>
       </div>
 
-      <div className="text-right mt-4 font-semibold text-lg">
-        Total: ₹{total}
-      </div>
+      {/* Billing Form */}
+      <form onSubmit={handleSubmit} className="grid gap-4">
+        <input
+          name="name"
+          placeholder="Full Name"
+          value={form.name}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          name="phone"
+          type="tel"
+          placeholder="Phone"
+          value={form.phone}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <textarea
+          name="address"
+          placeholder="Address"
+          value={form.address}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
 
-      <button
-        onClick={() => alert("Fake order placed!")}
-        className="mt-6 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
-      >
-        Place Order
-      </button>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Place Order
+        </button>
+      </form>
     </div>
   );
 }

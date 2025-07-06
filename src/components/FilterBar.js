@@ -6,19 +6,25 @@ const { Search } = Input;
 
 export default function FilterBar({ category, setCategory, search, setSearch, sort, setSort }) {
   return (
+    
     <Row gutter={[16, 16]} className="mb-6">
       <Col xs={24} md={6}>
         <Select
-          value={category}
-          onChange={setCategory}
-          style={{ width: "100%" }}
-          placeholder="Filter by Category"
-        >
-          <Option value="all">All</Option>
-          <Option value="electronics">Electronics</Option>
-          <Option value="fashion">Fashion</Option>
-          <Option value="books">Books</Option>
-        </Select>
+  value={category}
+  onChange={setCategory}
+  style={{ width: "100%" }}
+  placeholder="Filter by Category"
+>
+  <Option value="all">All</Option>
+  <Option value="electronics">Electronics</Option>
+  <Option value="fashion">Fashion</Option>
+  <Option value="books">Books</Option>
+  <Option value="home">Home</Option>
+  <Option value="beauty">Beauty</Option>
+  <Option value="toys">Toys</Option>
+  <Option value="fitness">Fitness</Option>
+</Select>
+
       </Col>
 
       <Col xs={24} md={12}>

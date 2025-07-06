@@ -1,45 +1,86 @@
-import products from "@/data/products";
+"use client";
 import { notFound } from "next/navigation";
-import { Button } from "antd";
+import { useEffect, useState } from "react";
+import products from "@/data/products";
+import { toast } from "react-hot-toast";
+import {useCart} from "@/context/CartContext";
 import Link from "next/link";
-import DetailSkeleton from "@/components/DetailSkeleton";
 
-export  default function ProductPage({ params }) {
-  const { id } =  params;
-  const loading=false;
- new Promise((res)=>setTimeout(res,1000));
+export default function ProductPage({ params }) {
+  const { id } = params;
+  const { addToCart } = useCart();
 
-  if(loading)return <DetailSkeleton/>
-  const product = products.find((p) => p.id.toString() === id);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const found = products.find((p) => p.id.toString() === id);
+      if (!found) {
+        setProduct(null);
+      } else {
+        setProduct(found);
+      }
+      setLoading(false);
+    }, 800); 
+
+    return () => clearTimeout(timeout);
+  }, [id]);
+
+  const handleAdd = () => {
+    addToCart(product);
+    toast.success("Product added to cart");
+  };
+
+  if (loading) {
+    return (
+      <div className="p-4 max-w-4xl mx-auto animate-pulse">
+        <div className="h-6 w-32 bg-gray-200 rounded mb-4"></div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gray-200 h-80 rounded-lg"></div>
+          <div>
+            <div className="h-4 w-1/4 bg-gray-200 rounded mb-2"></div>
+            <div className="h-6 w-3/4 bg-gray-300 rounded mb-4"></div>
+            <div className="h-20 w-full bg-gray-200 rounded mb-4"></div>
+            <div className="h-8 w-24 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) return notFound();
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="p-4 max-w-4xl mx-auto">
+      <div className="mb-4">
+        <Link href="/" className="text-blue-600 hover:underline text-sm">
+          ← Back to products
+        </Link>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6 items-start bg-white shadow-md rounded-lg p-6">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-80 object-cover rounded-xl"
+          className="w-full h-80 object-cover rounded-lg"
         />
-
         <div>
+          <span className="inline-block bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full mb-2">
+            {product.category}
+          </span>
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <p className="text-gray-500 mb-4 capitalize">{product.category}</p>
-          <p className="text-xl font-semibold text-teal-600 mb-4">
+          <p className="text-gray-600 mb-4">{product.description}</p>
+          <p className="text-green-600 text-2xl font-semibold mb-4">
             ₹{product.price}
           </p>
-          <p className="mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            vitae justo quis nisi consequat.
-          </p>
-          <Button type="primary" size="large">
+
+          <button
+            onClick={handleAdd}
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          >
             Add to Cart
-          </Button>
-          <Link href="/">
-            <Button type="link" className="ml-4">
-              ← Back to products
-            </Button>
-          </Link>
+          </button>
         </div>
       </div>
     </div>
