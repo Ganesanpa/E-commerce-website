@@ -38,7 +38,7 @@ This is a fully functional E-commerce frontend application built using **Next.js
 ![Sign up Page](screenshort/signup.png)
 ![product Page](screenshort/product.png)
 ![order summery Page](screenshort/orderummery.png)
-![order history Page](screenshort/orderHistory.png)
+![order history Page](screenshort/Screenshot 2025-07-06 210049.png)
 
 
 ---
