@@ -1,6 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
+# 🛍️ Next.js E-commerce Frontend
+
+This is a fully functional E-commerce frontend application built using **Next.js**, **Tailwind CSS**, and **Ant Design**. It supports product listing, cart management, authentication (login/signup), and a complete checkout experience.
+
+## 🚀 Features
+
+- ✅ Product listing with:
+  - Category filter
+  - Search functionality
+  - Price sorting
+  - Load More (pagination)
+- 🛒 Cart management with:
+  - Add/Remove products
+  - Quantity adjustments
+  - Total price calculation
+- 👤 User Authentication:
+  - Login and Sign-up with form validation
+  - Auth state stored in `localStorage`
+- 💳 Checkout flow with:
+  - Order summary
+  - Success confirmation
+  - Order history stored locally
+- 🌗 Dark & Light Theme toggle
+- 🔄 Responsive UI with Ant Design & TailwindCSS
+- 📁 Local fake API simulation using `lib/fakeApi.js`
+
+---
+
+## 📸 Screenshots
+
+> *(You can upload screenshots in your GitHub repo and reference them like below)*
+
+![Home Page](screenshots/home.png)
+![Cart Page](screenshots/cart.png)
+![Checkout](screenshots/checkout.png)
+![login Page](screenshort/login.png)
+![Sign up Page](screenshort/signup.png)
+![product Page](screenshort/product.png)
+![order summery Page](screenshort/orderummery.png)
+![order history Page](screenshort/orderHistory.png)
+
+
+---
+
+## 🧑‍💻 Technologies Used
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Ant Design](https://ant.design/)
+- [React Hot Toast](https://react-hot-toast.com/)
+- [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+
+---
+
+## 📂 Project Structure
+ecommerce-frontend/
+├── public/
+│ └── images/ # Product images
+├── src/
+│ ├── app/ # Next.js pages
+│ ├── components/ # UI components (ProductCard, FilterBar, etc.)
+│ ├── context/ # Auth and Cart Context
+│ ├── data/ # Static product data
+│ ├── lib/ # Fake API logic
+├── .gitignore
+├── README.md
+└── package.json
 
 First, run the development server:
 
