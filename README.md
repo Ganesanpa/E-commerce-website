@@ -26,6 +26,12 @@ This is a fully functional E-commerce frontend application built using **Next.js
 - 📁 Local fake API simulation using `lib/fakeApi.js`
 
 ---
+### 📹 Demo Video
+
+[Click here to watch the demo video](https://drive.google.com/file/d/14i9Qznh9wxF3WbUfHkPNeOg7-sHNUuhq/view?usp=drive_link)
+
+---
+
 ## 🧑‍💻 Technologies Used
 
 - [Next.js](https://nextjs.org/)
