@@ -5,7 +5,7 @@ import products from "@/data/products";
 import { toast } from "react-hot-toast";
 import {useCart} from "@/context/CartContext";
 import Link from "next/link";
-
+import Image from 'next/image';
 export default function ProductPage({ params }) {
   const { id } = params;
   const { addToCart } = useCart();
@@ -60,7 +60,7 @@ export default function ProductPage({ params }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 items-start bg-white shadow-md rounded-lg p-6">
-        <img
+        <Image
           src={product.image}
           alt={product.name}
           className="w-full h-80 object-cover rounded-lg"

@@ -2,7 +2,7 @@
 import { Card, Typography, Button } from "antd";
 import Link from "next/link";
 import {useCart} from "@/context/CartContext";
-
+import Image from 'next-image';
 const { Title, Text } = Typography;
 
 export default function ProductCard({ product }) {
@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
       hoverable
       cover={
         <Link href={`/product/${product.id}`}>
-          <img
+          <Image
             alt={product.name}
             src={product.image}
             className="h-48 w-full object-cover rounded-t"

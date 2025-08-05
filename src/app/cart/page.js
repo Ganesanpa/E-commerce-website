@@ -18,7 +18,7 @@ export default function CartPage() {
           <h2 className="text-xl font-semibold text-gray-600 mb-2">
             Your cart is empty
           </h2>
-          <p className="text-gray-500 mb-6">Looks like you haven't added anything yet.</p>
+          <p className="text-gray-500 mb-6">Looks like you haven'apos;t added anything yet.</p>
           <Link
             href="/"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
