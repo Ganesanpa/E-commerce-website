@@ -2,12 +2,9 @@
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { ShoppingCart } from "lucide-react";
-
 export default function CartPage() {
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCart();
-
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-
   return (
     <div className="p-4 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">🛒 Your Cart</h1>
@@ -18,7 +15,8 @@ export default function CartPage() {
           <h2 className="text-xl font-semibold text-gray-600 mb-2">
             Your cart is empty
           </h2>
-          <p className="text-gray-500 mb-6">Looks like you haven&apos;t added anything yet.</p>
+          <p className="text-gray-500 mb-6">Looks like you haven&apos;t added anything yet.
+</p>
           <Link
             href="/"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
@@ -39,7 +37,6 @@ export default function CartPage() {
                   ₹{item.price} × {item.qty}
                 </p>
               </div>
-
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => decreaseQty(item.id)}
@@ -55,7 +52,6 @@ export default function CartPage() {
                   +
                 </button>
               </div>
-
               <button
                 onClick={() => removeFromCart(item.id)}
                 className="text-red-600 hover:underline"
@@ -64,11 +60,9 @@ export default function CartPage() {
               </button>
             </div>
           ))}
-
           <div className="text-right font-bold text-lg mt-6">
             Total: ₹{total}
           </div>
-
           <Link
             href="/checkout"
             className="inline-block mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
