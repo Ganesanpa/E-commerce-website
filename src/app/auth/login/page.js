@@ -52,7 +52,7 @@ export default function Login() {
           </Button>
         </Form.Item>
         <div className="text-center text-sm">
-         Don&apos;t have an account?{" "}
+         <p>Don&#39;t have an account?{" "}</p>
           <Link href="/auth/signup" className="text-blue-600 hover:underline">
             Create one
           </Link>
